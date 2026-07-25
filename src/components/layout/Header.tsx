@@ -27,13 +27,12 @@ const PAGE_TITLES: Record<string, string> = {
   "/patients": "Patients",
 };
 
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+function getInitials(name?: string | null) {
+  if (!name || typeof name !== "string") return "DA";
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "DA";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return ((parts[0]?.[0] || "") + (parts[parts.length - 1]?.[0] || "")).toUpperCase() || "DA";
 }
 
 export function Header() {
@@ -64,9 +63,14 @@ export function Header() {
   };
 
   const handleLogout = async () => {
-    await logout();
-    dispatch(clearAuth());
-    router.push("/login");
+    try {
+      await logout().unwrap();
+    } catch (e) {
+      console.error("Logout error:", e);
+    } finally {
+      dispatch(clearAuth());
+      router.push("/login");
+    }
   };
 
   return (
