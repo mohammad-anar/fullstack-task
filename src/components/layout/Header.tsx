@@ -1,9 +1,9 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { Bell, Search, Sun, Moon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Bell, Search, Sun, Moon, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -16,10 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MobileSidebarTrigger } from "./Sidebar";
-import { useRouter } from "next/navigation";
 import { useLogoutMutation } from "@/store/services/apiService";
 import { clearAuth } from "@/store/slices/authSlice";
-import { useAppDispatch } from "@/store/hooks";
 
 const PAGE_TITLES: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -120,11 +118,11 @@ export function Header() {
         />
       </Button>
 
-      {/* Avatar dropdown */}
+      {/* Shadcn UI DropdownMenu */}
       <DropdownMenu>
         <DropdownMenuTrigger
           id="user-avatar-btn"
-          className="flex items-center gap-2 rounded-xl p-1 pr-3 hover:bg-accent transition-colors"
+          className="flex items-center gap-2 rounded-xl p-1 pr-3 hover:bg-accent transition-colors focus:outline-none cursor-pointer"
           aria-label="User menu"
         >
           <Avatar className="h-8 w-8">
@@ -132,27 +130,28 @@ export function Header() {
               className="text-xs font-bold text-white"
               style={{ background: "linear-gradient(135deg, oklch(0.52 0.18 220), oklch(0.62 0.16 160))" }}
             >
-              {user?.name ? getInitials(user.name) : "DA"}
+              {getInitials(user?.name)}
             </AvatarFallback>
           </Avatar>
           <span className="text-sm font-medium hidden sm:block">
             {user?.name || "Admin"}
           </span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-52">
+        <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>
-            <p className="font-medium">{user?.name || "Admin"}</p>
-            <p className="text-xs text-muted-foreground font-normal truncate">
-              {user?.email || ""}
+            <p className="font-medium text-sm leading-none">{user?.name || "Admin"}</p>
+            <p className="text-xs text-muted-foreground font-normal mt-1 truncate">
+              {user?.email || "admin@doctortracker.com"}
             </p>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             id="dropdown-logout-btn"
             onClick={handleLogout}
-            className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer"
+            className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer flex items-center gap-2"
           >
-            Logout
+            <LogOut className="w-4 h-4" />
+            <span>Logout</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
