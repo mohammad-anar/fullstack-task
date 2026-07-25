@@ -46,75 +46,88 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Medical Teal/Cyan Design Tokens */
+  --color-brand-50: #ecfeff;
+  --color-brand-100: #cffafe;
+  --color-brand-200: #a5f3fc;
+  --color-brand-400: #22d3ee;
+  --color-brand-500: #06b6d4;
+  --color-brand-600: #0891b2;
+  --color-brand-700: #0e7490;
+  --color-brand-900: #164e63;
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* Medical light theme - Clean clinical white */
+  --background: oklch(0.98 0.003 210);
+  --foreground: oklch(0.12 0.02 250);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.12 0.02 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.12 0.02 250);
+  --primary: oklch(0.52 0.18 220);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.95 0.01 210);
+  --secondary-foreground: oklch(0.25 0.02 250);
+  --muted: oklch(0.96 0.005 210);
+  --muted-foreground: oklch(0.5 0.02 230);
+  --accent: oklch(0.94 0.04 210);
+  --accent-foreground: oklch(0.25 0.08 220);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --border: oklch(0.9 0.01 210);
+  --input: oklch(0.92 0.01 210);
+  --ring: oklch(0.52 0.18 220);
+  /* Chart colors - Medical brand palette */
+  --chart-1: oklch(0.52 0.18 220);
+  --chart-2: oklch(0.62 0.16 160);
+  --chart-3: oklch(0.72 0.15 80);
+  --chart-4: oklch(0.65 0.18 300);
+  --chart-5: oklch(0.6 0.2 30);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.97 0.008 215);
+  --sidebar-foreground: oklch(0.2 0.02 250);
+  --sidebar-primary: oklch(0.52 0.18 220);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.92 0.03 210);
+  --sidebar-accent-foreground: oklch(0.25 0.08 220);
+  --sidebar-border: oklch(0.88 0.01 210);
+  --sidebar-ring: oklch(0.52 0.18 220);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
+  /* Medical dark theme - Deep navy/slate */
+  --background: oklch(0.11 0.015 255);
+  --foreground: oklch(0.95 0.005 220);
+  --card: oklch(0.15 0.015 255);
+  --card-foreground: oklch(0.95 0.005 220);
+  --popover: oklch(0.15 0.015 255);
+  --popover-foreground: oklch(0.95 0.005 220);
+  --primary: oklch(0.6 0.18 210);
+  --primary-foreground: oklch(0.1 0.01 250);
+  --secondary: oklch(0.2 0.02 255);
+  --secondary-foreground: oklch(0.9 0.005 220);
+  --muted: oklch(0.18 0.015 255);
+  --muted-foreground: oklch(0.6 0.02 230);
+  --accent: oklch(0.22 0.04 230);
+  --accent-foreground: oklch(0.88 0.08 210);
+  --destructive: oklch(0.65 0.22 25);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.6 0.18 210);
+  --chart-1: oklch(0.6 0.18 210);
+  --chart-2: oklch(0.65 0.16 160);
+  --chart-3: oklch(0.75 0.15 80);
+  --chart-4: oklch(0.7 0.18 300);
+  --chart-5: oklch(0.65 0.2 30);
+  --sidebar: oklch(0.14 0.015 255);
+  --sidebar-foreground: oklch(0.9 0.005 220);
+  --sidebar-primary: oklch(0.6 0.18 210);
+  --sidebar-primary-foreground: oklch(0.1 0.01 250);
+  --sidebar-accent: oklch(0.2 0.03 240);
+  --sidebar-accent-foreground: oklch(0.88 0.08 210);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-ring: oklch(0.6 0.18 210);
 }
 
 @layer base {
@@ -126,5 +139,55 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .dark .glass-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .gradient-brand {
+    background: linear-gradient(135deg, oklch(0.52 0.18 220), oklch(0.62 0.16 160));
+  }
+
+  .gradient-card {
+    background: linear-gradient(135deg, oklch(0.97 0.02 210), oklch(0.99 0.01 190));
+  }
+
+  .dark .gradient-card {
+    background: linear-gradient(135deg, oklch(0.16 0.02 255), oklch(0.14 0.015 240));
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.7 0.05 220) transparent;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }
