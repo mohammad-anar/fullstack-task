@@ -72,7 +72,7 @@ function NavLink({
   if (collapsed && !mobile) {
     return (
       <Tooltip>
-        <TooltipTrigger asChild>{link}</TooltipTrigger>
+        <TooltipTrigger>{link}</TooltipTrigger>
         <TooltipContent side="right" className="font-medium">
           {item.label}
         </TooltipContent>
@@ -149,14 +149,12 @@ function SidebarContent({
       <div className="p-3 border-t border-sidebar-border">
         {collapsed && !mobile ? (
           <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center justify-center p-2.5 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
-                id="logout-btn"
-              >
-                <LogOut className="w-5 h-5" />
-              </button>
+            <TooltipTrigger
+              onClick={handleLogout}
+              className="w-full flex items-center justify-center p-2.5 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+              id="logout-btn"
+            >
+              <LogOut className="w-5 h-5" />
             </TooltipTrigger>
             <TooltipContent side="right">Logout</TooltipContent>
           </Tooltip>
@@ -207,16 +205,12 @@ export function Sidebar() {
 
       {/* Mobile Sidebar */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            id="mobile-menu-btn"
-            aria-label="Open menu"
-          >
-            <Menu className="w-5 h-5" />
-          </Button>
+        <SheetTrigger
+          id="mobile-menu-btn"
+          className="lg:hidden h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+          aria-label="Open menu"
+        >
+          <Menu className="w-5 h-5" />
         </SheetTrigger>
         <SheetContent side="left" className="w-[260px] p-0 bg-sidebar border-sidebar-border">
           <SidebarContent

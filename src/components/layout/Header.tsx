@@ -118,24 +118,22 @@ export function Header() {
 
       {/* Avatar dropdown */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button
-            id="user-avatar-btn"
-            className="flex items-center gap-2 rounded-xl p-1 pr-3 hover:bg-accent transition-colors"
-            aria-label="User menu"
-          >
-            <Avatar className="h-8 w-8">
-              <AvatarFallback
-                className="text-xs font-bold text-white"
-                style={{ background: "linear-gradient(135deg, oklch(0.52 0.18 220), oklch(0.62 0.16 160))" }}
-              >
-                {user?.name ? getInitials(user.name) : "DA"}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-sm font-medium hidden sm:block">
-              {user?.name || "Admin"}
-            </span>
-          </button>
+        <DropdownMenuTrigger
+          id="user-avatar-btn"
+          className="flex items-center gap-2 rounded-xl p-1 pr-3 hover:bg-accent transition-colors"
+          aria-label="User menu"
+        >
+          <Avatar className="h-8 w-8">
+            <AvatarFallback
+              className="text-xs font-bold text-white"
+              style={{ background: "linear-gradient(135deg, oklch(0.52 0.18 220), oklch(0.62 0.16 160))" }}
+            >
+              {user?.name ? getInitials(user.name) : "DA"}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-sm font-medium hidden sm:block">
+            {user?.name || "Admin"}
+          </span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-52">
           <DropdownMenuLabel>

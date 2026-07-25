@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-background antialiased">
         <ReduxProvider>
-          <TooltipProvider delayDuration={200}>
+          <TooltipProvider>
             {children}
             <Toaster />
           </TooltipProvider>

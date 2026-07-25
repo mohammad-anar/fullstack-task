@@ -82,13 +82,12 @@ function DoctorCard({
           </AvatarFallback>
         </Avatar>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-            <button
-              id={`doctor-menu-${doctor._id}`}
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted opacity-0 group-hover:opacity-100 transition-all"
-            >
-              <MoreVertical className="w-4 h-4" />
-            </button>
+          <DropdownMenuTrigger
+            id={`doctor-menu-${doctor._id}`}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted opacity-0 group-hover:opacity-100 transition-all"
+          >
+            <MoreVertical className="w-4 h-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
             <DropdownMenuItem id={`view-doctor-${doctor._id}`} onClick={onView}><Eye className="w-4 h-4 mr-2" />View Details</DropdownMenuItem>
@@ -211,19 +210,15 @@ export default function DoctorsPage() {
 
         {/* Filter Popover */}
         <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              id="doctor-filter-btn"
-              className={cn("h-9 gap-2", hasFilters && "border-primary text-primary")}
-            >
-              <Filter className="w-4 h-4" />
-              Filters
-              {hasFilters && (
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: "oklch(0.52 0.18 220)" }} />
-              )}
-            </Button>
+          <PopoverTrigger
+            id="doctor-filter-btn"
+            className={cn("h-9 gap-2 inline-flex items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors", hasFilters && "border-primary text-primary")}
+          >
+            <Filter className="w-4 h-4" />
+            Filters
+            {hasFilters && (
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "oklch(0.52 0.18 220)" }} />
+            )}
           </PopoverTrigger>
           <PopoverContent className="w-72 p-4 space-y-3">
             <p className="text-sm font-semibold">Filter Doctors</p>
@@ -365,13 +360,11 @@ export default function DoctorsPage() {
                     </TableCell>
                     <TableCell onClick={(e) => e.stopPropagation()}>
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <button
-                            id={`table-menu-${doc._id}`}
-                            className="w-7 h-7 rounded flex items-center justify-center text-muted-foreground hover:bg-muted"
-                          >
-                            <MoreVertical className="w-4 h-4" />
-                          </button>
+                        <DropdownMenuTrigger
+                          id={`table-menu-${doc._id}`}
+                          className="w-7 h-7 rounded flex items-center justify-center text-muted-foreground hover:bg-muted"
+                        >
+                          <MoreVertical className="w-4 h-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem id={`table-view-${doc._id}`} onClick={() => handleViewDoctor(doc)}><Eye className="w-4 h-4 mr-2" />View</DropdownMenuItem>

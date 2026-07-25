@@ -173,19 +173,15 @@ export default function PatientsPage() {
         </Button>
 
         <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              id="patient-filter-btn"
-              className={cn("h-9 gap-2", hasFilters && "border-primary text-primary")}
-            >
-              <Filter className="w-4 h-4" />
-              Filters
-              {hasFilters && (
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: "oklch(0.52 0.18 220)" }} />
-              )}
-            </Button>
+          <PopoverTrigger
+            id="patient-filter-btn"
+            className={cn("h-9 gap-2 inline-flex items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors", hasFilters && "border-primary text-primary")}
+          >
+            <Filter className="w-4 h-4" />
+            Filters
+            {hasFilters && (
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "oklch(0.52 0.18 220)" }} />
+            )}
           </PopoverTrigger>
           <PopoverContent className="w-72 p-4 space-y-3">
             <p className="text-sm font-semibold">Filter Patients</p>
@@ -203,7 +199,7 @@ export default function PatientsPage() {
 
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Status</label>
-              <Select value={status || "all"} onValueChange={(v) => setStatus(v === "all" ? "" : v)}>
+              <Select value={status || "all"} onValueChange={(v) => setStatus((v ?? "all") === "all" ? "" : (v ?? ""))}>
                 <SelectTrigger id="filter-status" className="h-8 text-sm">
                   <SelectValue placeholder="All statuses" />
                 </SelectTrigger>
@@ -219,7 +215,7 @@ export default function PatientsPage() {
 
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Gender</label>
-              <Select value={gender || "all"} onValueChange={(v) => setGender(v === "all" ? "" : v)}>
+              <Select value={gender || "all"} onValueChange={(v) => setGender((v ?? "all") === "all" ? "" : (v ?? ""))}>
                 <SelectTrigger id="filter-gender" className="h-8 text-sm">
                   <SelectValue placeholder="All genders" />
                 </SelectTrigger>
@@ -234,7 +230,7 @@ export default function PatientsPage() {
 
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Doctor</label>
-              <Select value={doctorId || "all"} onValueChange={(v) => setDoctorId(v === "all" ? "" : v)}>
+              <Select value={doctorId || "all"} onValueChange={(v) => setDoctorId((v ?? "all") === "all" ? "" : (v ?? ""))}>
                 <SelectTrigger id="filter-doctor" className="h-8 text-sm">
                   <SelectValue placeholder="All doctors" />
                 </SelectTrigger>
@@ -339,13 +335,11 @@ export default function PatientsPage() {
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <button
-                          id={`patient-menu-${patient._id}`}
-                          className="w-7 h-7 rounded flex items-center justify-center text-muted-foreground hover:bg-muted"
-                        >
-                          <MoreVertical className="w-4 h-4" />
-                        </button>
+                      <DropdownMenuTrigger
+                        id={`patient-menu-${patient._id}`}
+                        className="w-7 h-7 rounded flex items-center justify-center text-muted-foreground hover:bg-muted"
+                      >
+                        <MoreVertical className="w-4 h-4" />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem
