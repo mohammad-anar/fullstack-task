@@ -49,9 +49,7 @@ UserSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.passwordHash);
 };
 
-// Index for fast email lookup
-UserSchema.index({ email: 1 });
-
+// User model exports
 const User: Model<IUser> =
   mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
 
