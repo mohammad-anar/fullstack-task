@@ -52,8 +52,6 @@ Create a `.env` file in the project root:
 ```env
 MONGODB_URI=mongodb://localhost:27017/doctor-tracker
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
-NEXTAUTH_SECRET=your-nextauth-secret
-NEXTAUTH_URL=http://localhost:3000
 ADMIN_EMAIL=admin@doctortracker.com
 ADMIN_PASSWORD=admin123
 ```
