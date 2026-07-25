@@ -192,7 +192,7 @@ export function DonutChart({ data, title }: ConditionPieProps) {
                 color: "oklch(0.95 0.005 220)",
                 fontSize: "13px",
               }}
-              formatter={(value: number) => [`${value} (${Math.round((value / total) * 100)}%)`, ""]}
+              formatter={(value: any) => [`${(value ?? 0)} (${Math.round(((Number(value) || 0) / total) * 100)}%)`, ""]}
             />
             <Legend
               iconType="circle"

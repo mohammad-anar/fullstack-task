@@ -19,7 +19,7 @@ import { Loader2 } from "lucide-react";
 
 const editSchema = z.object({
   name: z.string().min(2),
-  age: z.coerce.number().min(0).max(150),
+  age: z.number().min(0).max(150),
   gender: z.enum(["male", "female", "other"]),
   condition: z.string().min(2),
   phone: z.string().min(7),
@@ -102,14 +102,14 @@ export function EditPatientDialog({ patient, open, onClose }: EditPatientDialogP
 
             <div className="space-y-1">
               <label className="text-sm font-medium" htmlFor="edit-age">Age</label>
-              <Input id="edit-age" type="number" {...register("age")} />
+              <Input id="edit-age" type="number" {...register("age", { valueAsNumber: true })} />
             </div>
 
             <div className="space-y-1">
               <label className="text-sm font-medium">Gender</label>
               <Select
                 value={watch("gender")}
-                onValueChange={(v) => setValue("gender", v as EditForm["gender"])}
+                onValueChange={(v) => setValue("gender", (v ?? "male") as EditForm["gender"])}
               >
                 <SelectTrigger id="edit-gender">
                   <SelectValue />
@@ -141,7 +141,7 @@ export function EditPatientDialog({ patient, open, onClose }: EditPatientDialogP
               <label className="text-sm font-medium">Status</label>
               <Select
                 value={watch("status")}
-                onValueChange={(v) => setValue("status", v as EditForm["status"])}
+                onValueChange={(v) => setValue("status", (v ?? "admitted") as EditForm["status"])}
               >
                 <SelectTrigger id="edit-status">
                   <SelectValue />

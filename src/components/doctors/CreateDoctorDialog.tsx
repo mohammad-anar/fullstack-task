@@ -22,7 +22,7 @@ const doctorSchema = z.object({
   hospital: z.string().min(2, "Hospital is required"),
   phone: z.string().min(7, "Valid phone number required"),
   email: z.string().email("Valid email required"),
-  experience: z.coerce.number().min(0).max(60).optional(),
+  experience: z.number().min(0).max(60).optional(),
   qualification: z.string().optional(),
   bio: z.string().max(500).optional(),
 });
@@ -107,7 +107,7 @@ export function CreateDoctorDialog({ open, onClose }: CreateDoctorDialogProps) {
 
             <div className="space-y-1">
               <label className="text-sm font-medium" htmlFor="doc-exp">Experience (years)</label>
-              <Input id="doc-exp" type="number" min={0} placeholder="5" {...register("experience")} />
+              <Input id="doc-exp" type="number" min={0} placeholder="5" {...register("experience", { valueAsNumber: true })} />
             </div>
 
             <div className="space-y-1">

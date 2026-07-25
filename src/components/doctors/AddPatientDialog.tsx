@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -20,7 +20,7 @@ import { Loader2 } from "lucide-react";
 
 const patientSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  age: z.coerce.number().min(0).max(150),
+  age: z.number().min(0).max(150),
   gender: z.enum(["male", "female", "other"]),
   condition: z.string().min(2, "Condition is required"),
   phone: z.string().min(7, "Valid phone required"),
@@ -101,7 +101,7 @@ export function AddPatientDialog({
 
             <div className="space-y-1">
               <label className="text-sm font-medium" htmlFor="pat-age">Age</label>
-              <Input id="pat-age" type="number" placeholder="35" {...register("age")} />
+              <Input id="pat-age" type="number" placeholder="35" {...register("age", { valueAsNumber: true })} />
               {errors.age && <p className="text-xs text-destructive">{errors.age.message}</p>}
             </div>
 
@@ -109,7 +109,7 @@ export function AddPatientDialog({
               <label className="text-sm font-medium">Gender</label>
               <Select
                 defaultValue={watch("gender")}
-                onValueChange={(v) => setValue("gender", v as "male" | "female" | "other")}
+                onValueChange={(v) => setValue("gender", (v ?? "male") as "male" | "female" | "other")}
               >
                 <SelectTrigger id="pat-gender">
                   <SelectValue placeholder="Select gender" />
@@ -143,7 +143,7 @@ export function AddPatientDialog({
               <label className="text-sm font-medium">Assigned Doctor</label>
               <Select
                 defaultValue={preSelectedDoctorId}
-                onValueChange={(v) => setValue("doctorId", v)}
+                onValueChange={(v) => setValue("doctorId", v ?? "")}
               >
                 <SelectTrigger id="pat-doctor">
                   <SelectValue placeholder="Select doctor" />
@@ -163,7 +163,7 @@ export function AddPatientDialog({
               <label className="text-sm font-medium">Status</label>
               <Select
                 defaultValue={watch("status")}
-                onValueChange={(v) => setValue("status", v as PatientForm["status"])}
+                onValueChange={(v) => setValue("status", (v ?? "admitted") as PatientForm["status"])}
               >
                 <SelectTrigger id="pat-status">
                   <SelectValue />
