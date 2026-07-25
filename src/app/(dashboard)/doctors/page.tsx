@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useGetDoctorsQuery, useDeleteDoctorMutation, Doctor } from "@/store/services/apiService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -139,9 +140,10 @@ export default function DoctorsPage() {
     setPage(1);
   }, [searchInput]);
 
+  const router = useRouter();
+
   const handleViewDoctor = (doctor: Doctor) => {
-    setSelectedDoctor(doctor);
-    setSheetOpen(true);
+    router.push(`/doctors/${doctor._id}`);
   };
 
   const handleAddPatient = (doctor: Doctor) => {
