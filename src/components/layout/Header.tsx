@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -138,12 +139,14 @@ export function Header() {
           </span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>
-            <p className="font-medium text-sm leading-none">{user?.name || "Admin"}</p>
-            <p className="text-xs text-muted-foreground font-normal mt-1 truncate">
-              {user?.email || "admin@doctortracker.com"}
-            </p>
-          </DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel>
+              <p className="font-medium text-sm leading-none">{user?.name || "Admin"}</p>
+              <p className="text-xs text-muted-foreground font-normal mt-1 truncate">
+                {user?.email || "admin@doctortracker.com"}
+              </p>
+            </DropdownMenuLabel>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             id="dropdown-logout-btn"
