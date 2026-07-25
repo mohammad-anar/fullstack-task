@@ -1,5 +1,7 @@
 # Doctor Tracker — Fullstack Healthcare Administration Portal
 
+**Live Application URL:** [https://doctor-portal-three-lyart.vercel.app/login](https://doctor-portal-three-lyart.vercel.app/login)
+
 Doctor Tracker is a secure healthcare administrative platform designed to streamline doctor management, patient record tracking, and real-time clinical analytics. Built as a full-stack Next.js application, it provides hospital administrators with an intuitive dashboard for monitoring workloads, patient admission trends, and medical condition distributions.
 
 ---
