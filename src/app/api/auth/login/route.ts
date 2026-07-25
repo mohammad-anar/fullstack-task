@@ -3,6 +3,7 @@ import { SignJWT } from "jose";
 import bcrypt from "bcryptjs";
 import connectDB from "@/lib/db";
 import User from "@/models/User";
+import { seedAdmin } from "@/lib/seedAdmin";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "secret");
 
@@ -18,7 +19,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    let user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      await seedAdmin();
+      user = await User.findOne({ email: email.toLowerCase() });
+    }
+
     if (!user) {
       return NextResponse.json(
         { error: "Invalid credentials" },

@@ -4,6 +4,7 @@ import connectDB from "@/lib/db";
 import User from "@/models/User";
 import Doctor from "@/models/Doctor";
 import Patient from "@/models/Patient";
+import { seedAdmin } from "@/lib/seedAdmin";
 
 const specializations = [
   "Cardiology", "Neurology", "Orthopedics", "Pediatrics", "Dermatology",
@@ -60,16 +61,7 @@ export async function POST() {
     ]);
 
     // Create admin user
-    const passwordHash = await bcrypt.hash(
-      process.env.ADMIN_PASSWORD || "admin123",
-      10
-    );
-    await User.create({
-      name: "Dr. Admin",
-      email: process.env.ADMIN_EMAIL || "admin@doctortracker.com",
-      passwordHash,
-      role: "admin",
-    });
+    await seedAdmin();
 
     // Create 15 doctors
     const doctorData = Array.from({ length: 15 }, (_, i) => {
