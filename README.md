@@ -1,54 +1,47 @@
-# Doctor Tracker — Healthcare Administration Portal
+# Doctor Tracker — Fullstack Healthcare Administration Portal
 
-A modern, fullstack healthcare administration portal for managing doctors, patients, and analytics — built with **Next.js 16 App Router**, **MongoDB**, **Redux Toolkit (RTK Query)**, and **Shadcn UI**.
-
----
-
-## 🚀 Features
-
-| Feature | Description |
-|---|---|
-| 🔐 **Secure Auth** | JWT cookie-based auth with middleware route protection |
-| 📊 **Analytics Dashboard** | Real-time KPI cards, area charts, bar charts, donut charts |
-| 👨‍⚕️ **Doctor Management** | Table & grid view, search, filters, create/delete, detail drawer |
-| 🏥 **Patient Management** | Full CRUD, multi-filter (condition, status, gender, doctor, date) |
-| 📱 **Responsive Design** | Mobile drawer navigation, responsive layouts |
-| 🌙 **Dark Mode** | Full dark/light mode with localStorage persistence |
-| 🌱 **Seed Data** | One-click database seeding (15 doctors, 60 patients) |
+Doctor Tracker is a secure, performance-focused healthcare administrative platform designed to streamline doctor management, patient record tracking, and real-time clinical analytics. Built as a full-stack Next.js application, it provides hospital administrators with an intuitive dashboard for monitoring workloads, patient admission trends, and medical condition distributions.
 
 ---
 
-## 🛠️ Tech Stack
+## Technical Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 16 (App Router, TypeScript) |
-| **State Management** | Redux Toolkit |
-| **Data Fetching** | RTK Query |
-| **UI Components** | Shadcn UI + Tailwind CSS v4 |
-| **Data Visualization** | Recharts |
-| **Database** | MongoDB + Mongoose |
-| **Authentication** | Jose (JWT) + bcryptjs |
-| **Forms** | React Hook Form + Zod |
-| **Animations** | tw-animate-css + CSS keyframes |
+- **Framework:** Next.js 16 (App Router, Server Components & Route Handlers)
+- **Database & ODM:** MongoDB with Mongoose
+- **State Management & Data Fetching:** Redux Toolkit & RTK Query
+- **Authentication:** Custom JWT using `jose` & HTTP-only cookies
+- **Form Management & Validation:** React Hook Form & Zod
+- **Data Visualization:** Recharts
+- **Styling & UI:** Tailwind CSS, Shadcn UI primitives, and Radix UI
 
 ---
 
-## ⚙️ Setup
+## Local Setup Guide
 
-### Prerequisites
-- Node.js 18+
-- MongoDB (local or Atlas)
+Follow these steps to run the application locally.
 
-### 1. Clone & Install
+### 1. Prerequisites
+- Node.js (v18.x or higher)
+- MongoDB instance (Local `mongodb://localhost:27017` or MongoDB Atlas cluster)
+
+### 2. Installation
+Clone the repository and install dependencies:
+
 ```bash
 git clone https://github.com/mohammad-anar/fullstack-task.git
 cd fullstack-task
 npm install --legacy-peer-deps
 ```
 
-### 2. Environment Variables
-Create a `.env` file in the project root:
+### 3. Environment Configuration
+Copy the provided `.env.example` file to create your local `.env` configuration:
+
+```bash
+cp .env.example .env
+```
+
+Your `.env` file should look like this:
+
 ```env
 MONGODB_URI=mongodb://localhost:27017/doctor-tracker
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
@@ -56,151 +49,133 @@ ADMIN_EMAIL=admin@doctortracker.com
 ADMIN_PASSWORD=admin123
 ```
 
-### 3. Run Development Server
+### 4. Database Seeding
+Start the development server:
+
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 4. Seed the Database
-Visit the **Dashboard** and click the **"Seed Data"** button, or make a POST request:
+Then seed the database by either clicking the **"Seed Data"** button on the top navigation bar or running the curl command below:
+
 ```bash
 curl -X POST http://localhost:3000/api/seed
 ```
-This creates:
-- 1 admin user (`admin@doctortracker.com` / `admin123`)
-- 15 doctors across all specializations
-- 60 patients with realistic medical data
 
-### 5. Login
-Use the demo credentials or click **"Use demo credentials"** on the login page.
+This populates the database with:
+- 1 Admin user (`admin@doctortracker.com` / `admin123`)
+- 15 Doctors across various medical specializations
+- 60 Realistically generated patient records with admission histories
+
+### 5. Accessing the Portal
+Navigate to `http://localhost:3000/login` and log in using the demo credentials or click **"Use demo credentials"**.
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture & Data Flow
+
+The application follows a monolithic Next.js architecture where both frontend components and backend RESTful APIs reside in a single codebase.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Next.js 16 App Router                     │
-│                                                                   │
-│  ┌─────────────┐  ┌─────────────────┐  ┌──────────────────────┐ │
-│  │   /login    │  │   /(dashboard)  │  │    /api/*            │ │
-│  │             │  │   /dashboard    │  │    /auth/login       │ │
-│  │  JWT Auth   │  │   /doctors      │  │    /auth/me          │ │
-│  │  Form       │  │   /patients     │  │    /doctors          │ │
-│  └─────────────┘  └─────────────────┘  │    /patients         │ │
-│                                         │    /dashboard/stats  │ │
-│          Middleware (JWT Verify)         │    /seed             │ │
-│                                         └──────────────────────┘ │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-          ┌──────────────────┼──────────────────┐
-          │                  │                  │
-   ┌──────▼──────┐   ┌──────▼──────┐   ┌──────▼──────┐
-   │  Redux RTK  │   │   MongoDB   │   │   Shadcn UI  │
-   │   Query     │   │  Mongoose   │   │   Recharts   │
-   │  (Cache)    │   │  (Data)     │   │  (Visuals)   │
-   └─────────────┘   └─────────────┘   └─────────────┘
+                  ┌─────────────────────────────────────────┐
+                  │          Next.js App Router             │
+                  │                                         │
+                  │   Client Components / UI Views          │
+                  │   (/dashboard, /doctors, /patients)     │
+                  └────────────────────┬────────────────────┘
+                                       │
+                         RTK Query / HTTP Requests
+                                       │
+                  ┌────────────────────▼────────────────────┐
+                  │      Next.js Route Handlers             │
+                  │      (/api/doctors, /api/patients)      │
+                  └────────────────────┬────────────────────┘
+                                       │
+                          Mongoose Queries & Aggregations
+                                       │
+                  ┌────────────────────▼────────────────────┐
+                  │           MongoDB Database              │
+                  └─────────────────────────────────────────┘
 ```
 
-### Data Flow
-1. User opens app → **Middleware** checks JWT cookie → redirects to `/login` if missing
-2. Login form → `POST /api/auth/login` → JWT stored in httpOnly cookie
-3. Dashboard layout → RTK Query `GET /api/auth/me` → bootstraps Redux auth state
-4. All data operations → RTK Query endpoints → Next.js API routes → MongoDB
-5. Cache invalidation via RTK Query tags ensures UI stays in sync after mutations
+### Flow Breakdown
+1. **Route Protection:** Server-side `middleware.ts` intercepts incoming requests for protected routes (`/(dashboard)`), verifying the `auth-token` HTTP-only cookie using `jose`. Unauthenticated requests are immediately redirected to `/login`.
+2. **Client State & Caching:** The frontend uses RTK Query as a single source of truth. Query hooks automatically cache backend data and deduplicate concurrent requests.
+3. **Optimistic Updates & Tag Invalidation:** Mutations (e.g., creating a doctor or editing a patient) invalidate RTK Query tags (`Doctors`, `Patients`, `Stats`), triggering background re-fetches so all components stay synchronized without requiring a manual page refresh.
 
 ---
 
-## 🔑 Technical Decisions
+## Key Technical Decisions & Architecture Rationale
 
-### Why RTK Query?
-RTK Query provides automatic cache management, request deduplication, and optimistic updates with minimal boilerplate. Tag-based cache invalidation ensures that creating/editing/deleting a doctor or patient automatically updates all related queries (doctor list, patient list, dashboard stats).
+### 1. RTK Query vs. React Context / Raw `fetch`
+*Why RTK Query?*
+In a complex management application where actions in one tab (e.g., adding a patient under a doctor in `/doctors`) directly impact metrics elsewhere (e.g., total patient counts on `/dashboard` and patient lists on `/patients`), manual state management quickly becomes error-prone. 
 
-### Why Next.js App Router?
-- **Route Groups** `(dashboard)` keep the authenticated layout isolated from the public login route
-- **Middleware** handles JWT verification server-side before any page renders — zero client-side flash
-- **API Routes** colocated with the frontend eliminate the need for a separate backend server
+RTK Query was chosen because its tag-based cache invalidation system (`providesTags` / `invalidatesTags`) provides declarative synchronization across views. It eliminates boilerplate loading/error state management and prevents unnecessary network requests through automated response caching.
 
-### Why MongoDB with Mongoose?
-- Flexible document model suits healthcare data with optional fields
-- Aggregation pipelines power the dashboard analytics efficiently
-- Text indexes on name/specialization/hospital/condition enable fast full-text search
+### 2. Lightweight JWT Auth (`jose`) vs. NextAuth / Third-Party Auth
+*Why custom JWT with `jose`?*
+For an administrative portal with straightforward role requirements, full auth frameworks like NextAuth can add unnecessary complexity and dependency weight. Using `jose` with standard `httpOnly`, `SameSite=Lax` cookies provided complete control over session lifetime, CSRF mitigation, and edge-compatible JWT verification inside Next.js middleware, keeping the bundle size lean and build times fast.
 
-### Why Jose over next-auth?
-Jose provides lightweight, standards-compliant JWT operations (HS256 signing/verification) without the complexity and peer dependency conflicts of full auth frameworks — ideal for a focused admin portal.
+### 3. Database Query & Indexing Strategy
+To ensure fast responses as records scale, MongoDB schemas are structured with explicit single-field and compound text indexes:
+- **Text Search:** `DoctorSchema` and `PatientSchema` include `$text` indexes on names, specializations, conditions, and hospital names to support fast regex search without scanning entire collections.
+- **Aggregation Pipelines:** The `/api/dashboard/stats` endpoint uses native MongoDB aggregation pipelines (`$group`, `$lookup`, `$project`) to compute counts, workload distributions, and 30-day admission trends directly inside the database engine rather than performing heavy JavaScript map/reduce operations on the server node.
+- **Lean Queries:** All read endpoints use `.lean()` to bypass Mongoose document instantiation overhead, returning plain JavaScript objects for maximum serialization speed.
 
 ---
 
-## 📁 Project Structure
+## REST API Reference
+
+| Method | Route | Description | Query Parameters |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/login` | Authenticates admin credentials and sets JWT cookie | None |
+| `GET` | `/api/auth/me` | Validates session and returns current user info | None |
+| `POST` | `/api/auth/logout` | Clears authentication cookie | None |
+| `GET` | `/api/doctors` | Retrieves paginated doctor list | `page`, `limit`, `search`, `specialization`, `hospital`, `status`, `dateFrom`, `dateTo` |
+| `POST` | `/api/doctors` | Creates a new doctor record | None |
+| `GET` | `/api/doctors/[id]`| Retrieves doctor profile along with assigned patients | None |
+| `PUT` | `/api/doctors/[id]`| Updates doctor information | None |
+| `DELETE`| `/api/doctors/[id]`| Deletes a doctor and unassigns/removes their patients | None |
+| `GET` | `/api/patients` | Retrieves paginated patient list | `page`, `limit`, `search`, `doctorId`, `condition`, `status`, `gender`, `dateFrom`, `dateTo` |
+| `POST` | `/api/patients` | Creates a new patient record | None |
+| `PUT` | `/api/patients/[id]`| Updates patient details | None |
+| `DELETE`| `/api/patients/[id]`| Deletes a patient record | None |
+| `GET` | `/api/dashboard/stats` | Computes clinical analytics & chart data | None |
+| `POST` | `/api/seed` | Seeds database with initial test data | None |
+
+---
+
+## Directory Structure
 
 ```
 src/
 ├── app/
-│   ├── (dashboard)/          # Auth-protected route group
-│   │   ├── layout.tsx         # Sidebar + Header layout
-│   │   ├── dashboard/         # Analytics dashboard
-│   │   ├── doctors/           # Doctor management
-│   │   └── patients/          # Patient management
-│   ├── api/
-│   │   ├── auth/              # Login, Me, Logout
-│   │   ├── doctors/           # Doctors CRUD + [id]
-│   │   ├── patients/          # Patients CRUD + [id]
-│   │   ├── dashboard/stats/   # Analytics aggregation
-│   │   └── seed/              # Database seeder
-│   ├── login/                 # Public login page
-│   └── globals.css            # Design system tokens
+│   ├── (dashboard)/            # Authenticated route group
+│   │   ├── dashboard/          # Analytics overview & charts
+│   │   ├── doctors/            # Doctor directory, search & management
+│   │   └── patients/           # Patient directory, filtering & edit dialogs
+│   ├── api/                    # REST API route handlers
+│   │   ├── auth/               # Login, session check, logout
+│   │   ├── dashboard/stats/    # Aggregation endpoints
+│   │   ├── doctors/            # Doctor CRUD operations
+│   │   ├── patients/           # Patient CRUD operations
+│   │   └── seed/               # Initial database seeder
+│   ├── login/                  # Login view
+│   └── globals.css             # Theme tokens & custom utility classes
 ├── components/
-│   ├── layout/                # Sidebar, Header
-│   ├── dashboard/             # StatCard, Charts
-│   ├── doctors/               # Dialogs, Detail Sheet
-│   ├── patients/              # Edit dialog
-│   ├── providers/             # Redux Provider
-│   └── ui/                    # Shadcn components
-├── models/                    # Mongoose schemas
-│   ├── User.ts
-│   ├── Doctor.ts
-│   └── Patient.ts
-├── store/
-│   ├── store.ts               # Redux store
-│   ├── hooks.ts               # Typed hooks
-│   ├── slices/authSlice.ts    # Auth state
-│   └── services/apiService.ts # RTK Query API
-└── middleware.ts              # JWT route protection
+│   ├── dashboard/              # Analytics cards & Recharts wrappers
+│   ├── doctors/                # Add/edit dialogs & patient detail sheet
+│   ├── layout/                 # Sidebar, header, & navigation controls
+│   ├── patients/               # Edit patient form modals
+│   └── ui/                     # Reusable Shadcn UI primitives
+├── models/                     # Mongoose schemas (Doctor, Patient, User)
+├── store/                      # Redux store configuration & RTK Query API definition
+└── middleware.ts               # Server-side JWT authentication middleware
 ```
 
 ---
 
-## 🌐 API Endpoints
+## License & Attribution
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/login` | Authenticate user |
-| GET | `/api/auth/me` | Get current user |
-| POST | `/api/auth/logout` | Clear session |
-| GET | `/api/doctors` | List doctors (search, filter, paginate) |
-| POST | `/api/doctors` | Create doctor |
-| GET | `/api/doctors/[id]` | Doctor detail + patients |
-| PUT | `/api/doctors/[id]` | Update doctor |
-| DELETE | `/api/doctors/[id]` | Delete doctor + patients |
-| GET | `/api/patients` | List patients (search, filter, paginate) |
-| POST | `/api/patients` | Add patient |
-| PUT | `/api/patients/[id]` | Update patient |
-| DELETE | `/api/patients/[id]` | Delete patient |
-| GET | `/api/dashboard/stats` | Analytics data |
-| POST | `/api/seed` | Seed database |
-
----
-
-## 🎨 Design System
-
-The UI uses a **Medical Teal/Cyan** palette built on OKLCH color space for perceptually uniform colors:
-- **Primary**: `oklch(0.52 0.18 220)` — Medical Cyan
-- **Charts**: 6-color harmonious palette across cyan, green, amber, purple, orange, indigo
-- **Dark Mode**: Deep navy background `oklch(0.11 0.015 255)` for clinical aesthetics
-- **Glassmorphism**: Used on login card with `backdrop-filter: blur(12px)`
-- **Micro-animations**: `animate-fade-in`, `animate-slide-up` on page transitions, hover lift on cards
-
----
-
-*Built with ❤️ using Next.js, MongoDB, Redux Toolkit, and Shadcn UI*
+Developed as a fullstack demonstration project. Open-source under the [MIT License](LICENSE).
