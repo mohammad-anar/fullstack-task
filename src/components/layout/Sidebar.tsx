@@ -16,8 +16,7 @@ import { useState } from "react";
 import { useLogoutMutation } from "@/store/services/apiService";
 import { clearAuth } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/hooks";
-import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
@@ -59,8 +58,10 @@ function NavLink({
       }
     >
       {isActive && (
-        <span className="absolute inset-0 rounded-xl opacity-20 blur-sm"
-          style={{ background: "oklch(0.52 0.18 220)" }} />
+        <span
+          className="absolute inset-0 rounded-xl opacity-20 blur-sm"
+          style={{ background: "oklch(0.52 0.18 220)" }}
+        />
       )}
       <Icon className={cn("w-5 h-5 flex-shrink-0 relative z-10", isActive ? "text-white" : "")} />
       {(!collapsed || mobile) && (
@@ -71,19 +72,21 @@ function NavLink({
 
   if (collapsed && !mobile) {
     return (
-      <Tooltip>
-        <TooltipTrigger>{link}</TooltipTrigger>
-        <TooltipContent side="right" className="font-medium">
-          {item.label}
-        </TooltipContent>
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>{link}</TooltipTrigger>
+          <TooltipContent side="right" className="font-medium">
+            {item.label}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     );
   }
 
   return link;
 }
 
-function SidebarContent({
+export function SidebarContent({
   collapsed,
   mobile = false,
   onClose,
@@ -103,7 +106,7 @@ function SidebarContent({
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-sidebar border-r border-sidebar-border">
       {/* Logo */}
       <div
         className={cn(
@@ -148,16 +151,21 @@ function SidebarContent({
       {/* Logout */}
       <div className="p-3 border-t border-sidebar-border">
         {collapsed && !mobile ? (
-          <Tooltip>
-            <TooltipTrigger
-              onClick={handleLogout}
-              className="w-full flex items-center justify-center p-2.5 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
-              id="logout-btn"
-            >
-              <LogOut className="w-5 h-5" />
-            </TooltipTrigger>
-            <TooltipContent side="right">Logout</TooltipContent>
-          </Tooltip>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center p-2.5 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+                  id="logout-btn"
+                  aria-label="Logout"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="right">Logout</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         ) : (
           <button
             onClick={handleLogout}
@@ -175,51 +183,48 @@ function SidebarContent({
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <>
-      {/* Desktop Sidebar */}
-      <aside
-        className={cn(
-          "hidden lg:flex flex-col h-screen sticky top-0 bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-in-out flex-shrink-0",
-          collapsed ? "w-[68px]" : "w-[240px]"
-        )}
+    <aside
+      className={cn(
+        "hidden lg:flex flex-col h-screen sticky top-0 bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-in-out flex-shrink-0 relative",
+        collapsed ? "w-[68px]" : "w-[240px]"
+      )}
+    >
+      <SidebarContent collapsed={collapsed} />
+
+      {/* Collapse toggle */}
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        id="sidebar-collapse-btn"
+        className="absolute -right-3 top-20 w-6 h-6 rounded-full border border-border bg-background shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10"
+        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
-        <SidebarContent collapsed={collapsed} />
+        {collapsed ? (
+          <ChevronRight className="w-3 h-3 text-muted-foreground" />
+        ) : (
+          <ChevronLeft className="w-3 h-3 text-muted-foreground" />
+        )}
+      </button>
+    </aside>
+  );
+}
 
-        {/* Collapse toggle */}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          id="sidebar-collapse-btn"
-          className="absolute -right-3 top-20 w-6 h-6 rounded-full border border-border bg-background shadow-md flex items-center justify-center hover:bg-accent transition-colors z-10"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? (
-            <ChevronRight className="w-3 h-3 text-muted-foreground" />
-          ) : (
-            <ChevronLeft className="w-3 h-3 text-muted-foreground" />
-          )}
-        </button>
-      </aside>
+export function MobileSidebarTrigger() {
+  const [open, setOpen] = useState(false);
 
-      {/* Mobile Sidebar */}
-      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetTrigger
-          id="mobile-menu-btn"
-          className="lg:hidden h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
-          aria-label="Open menu"
-        >
-          <Menu className="w-5 h-5" />
-        </SheetTrigger>
-        <SheetContent side="left" className="w-[260px] p-0 bg-sidebar border-sidebar-border">
-          <SidebarContent
-            collapsed={false}
-            mobile
-            onClose={() => setMobileOpen(false)}
-          />
-        </SheetContent>
-      </Sheet>
-    </>
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger
+        id="mobile-menu-btn"
+        className="lg:hidden h-9 w-9 inline-flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+        aria-label="Open menu"
+      >
+        <Menu className="w-5 h-5" />
+      </SheetTrigger>
+      <SheetContent side="left" className="w-[260px] p-0 bg-sidebar border-sidebar-border">
+        <SidebarContent collapsed={false} mobile onClose={() => setOpen(false)} />
+      </SheetContent>
+    </Sheet>
   );
 }

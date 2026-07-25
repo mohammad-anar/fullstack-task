@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sidebar } from "./Sidebar";
+import { MobileSidebarTrigger } from "./Sidebar";
 import { useRouter } from "next/navigation";
 import { useLogoutMutation } from "@/store/services/apiService";
 import { clearAuth } from "@/store/slices/authSlice";
@@ -71,8 +71,8 @@ export function Header() {
 
   return (
     <header className="h-16 border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-30 flex items-center px-4 gap-4">
-      {/* Mobile sidebar trigger lives inside Sidebar component */}
-      <Sidebar />
+      {/* Mobile sidebar trigger */}
+      <MobileSidebarTrigger />
 
       {/* Page title */}
       <div className="flex-1">
